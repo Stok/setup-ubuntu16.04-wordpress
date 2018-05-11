@@ -33,27 +33,27 @@ rm temp2
 cd ~
 curl -s https://api.wordpress.org/secret-key/1.1/salt/ > ./keys
 
-auth_key=grep "define('AUTH_KEY'" ./keys
+auth_key=$(grep "define('AUTH_KEY'" ./keys)
 cat ./temp3 | sed "s/define('AUTH_KEY',         'put your unique phrase here');/$auth_key/g" > ./temp4
 rm temp3
 
-sec_auth_key=grep "define('SECURE_AUTH_KEY'" ./keys
+sec_auth_key=$(grep "define('SECURE_AUTH_KEY'" ./keys)
 cat ./temp4 | sed "s/define('SECURE_AUTH_KEY',         'put your unique phrase here');/$sec_auth_key/g" > ./temp5
 rm temp4
 
-li_key=grep "define('LOGGED_IN_KEY'" ./keys
+li_key=$(grep "define('LOGGED_IN_KEY'" ./keys)
 cat ./temp5 | sed "s/define('LOGGED_IN_KEY',         'put your unique phrase here');/$li_key/g" > ./temp6
 rm temp5
 
-nonce_key=grep "define('NONCE_KEY'" ./keys
+nonce_key=$(grep "define('NONCE_KEY'" ./keys)
 cat ./temp6 | sed "s/define('NONCE_KEY',         'put your unique phrase here');/$nonce_key/g" > ./temp7
 rm temp6
 
-auth_salt=grep "define('AUTH_SALT'" ./keys
+auth_salt=$(grep "define('AUTH_SALT'" ./keys)
 cat ./temp7 | sed "s/define('AUTH_SALT',         'put your unique phrase here');/$auth_salt/g" > ./temp8
 rm temp7
 
-sec_auth_salt=grep "define('SECURE_AUTH_SALT'" ./keys
+sec_auth_salt=$(grep "define('SECURE_AUTH_SALT'" ./keys)
 cat ./temp8 | sed "s/define('SECURE_AUTH_SALT',         'put your unique phrase here');/$sec_auth_salt/g" > ./temp9
 rm temp8
 
@@ -61,7 +61,7 @@ li_salt=grep "define('LOGGED_IN_SALT'" ./keys
 cat ./temp9 | sed "s/define('LOGGED_IN_SALT',         'put your unique phrase here');/$li_salt/g" > ./temp10
 rm temp9
 
-nonce_salt=grep "define('NONCE_SALT'," ./keys
+nonce_salt=$(grep "define('NONCE_SALT'," ./keys)
 cat ./temp10 | sed "s/define('NONCE_SALT',         'put your unique phrase here');/$nonce_salt/g" > ./temp11
 rm temp10
 
