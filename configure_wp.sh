@@ -30,7 +30,6 @@ fi
 cat ./temp2 | sed "s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', '$db_user_pw');/g" > ./temp3
 rm temp2
 
-cd ~
 curl -s https://api.wordpress.org/secret-key/1.1/salt/ > ./keys
 
 auth_key=$(grep "define('AUTH_KEY'" ./keys)
