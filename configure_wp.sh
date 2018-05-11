@@ -56,7 +56,7 @@ sec_auth_salt=$(grep "define('SECURE_AUTH_SALT'" ./keys)
 cat ./temp8 | sed "s/define('SECURE_AUTH_SALT',         'put your unique phrase here');/$sec_auth_salt/g" > ./temp9
 rm temp8
 
-li_salt=grep "define('LOGGED_IN_SALT'" ./keys
+li_salt=$(grep "define('LOGGED_IN_SALT'" ./keys)
 cat ./temp9 | sed "s/define('LOGGED_IN_SALT',         'put your unique phrase here');/$li_salt/g" > ./temp10
 rm temp9
 
