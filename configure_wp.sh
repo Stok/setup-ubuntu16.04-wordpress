@@ -25,7 +25,7 @@ then
 	echo "Create mysql user's pw:";
 	read -s db_user_pw;
 else 
-	echo "db_user_pw is set to $db_user_pw"; 
+	echo "db_user_pw is set"; 
 fi
 cat ./temp2 | sed "s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', '$db_user_pw');/g" > ./temp3
 rm temp2
