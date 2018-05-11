@@ -20,9 +20,10 @@ mkdir tmp
 cd /tmp
 curl -O https://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
-cp ./tmp/wordpress/wp-config-sample.php ./tmp/wordpress/wp-config.php
-mkdir ./tmp/wordpress/wp-content/upgrade
-sudo cp -a ./tmp/wordpress/. /var/www/html
+cp ./wordpress/wp-config-sample.php ./wordpress/wp-config.php
+mkdir ./wordpress/wp-content/upgrade
+sudo cp -a ./wordpress/. /var/www/html
+cd ..
 
 # Configure the WordPress Directory
 sudo chown -R $(whoami):www-data /var/www/html
