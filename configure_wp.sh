@@ -64,7 +64,7 @@ nonce_salt=$(grep "define('NONCE_SALT'," ./keys)
 cat ./temp10 | sed "s/define('NONCE_SALT',         'put your unique phrase here');/$nonce_salt/g" > ./temp11
 rm temp10
 
-"define('FS_METHOD', 'direct');" >> ./temp11
+echo "define('FS_METHOD', 'direct');" >> ./temp11
 
 sudo chown root:root ./temp11
 sudo cp ./temp11 /var/www/html/wp-config.php
