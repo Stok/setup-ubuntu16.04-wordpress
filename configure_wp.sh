@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "<?php" > ./wp_config.php
+echo "define('FS_METHOD', 'direct');" >> ./wp_config.php
+
 # Check we have variables we need
 if [ -z ${db_name+x} ]; 
 then 
@@ -8,7 +11,7 @@ then
 else 
 	echo "db_name is set to $db_name"; 
 fi
-cat /var/www/html/wp-config.php | sed "s/define('DB_NAME', 'database_name_here');/define('DB_NAME', '$db_name');/g" > ./temp1
+echo "define('DB_NAME', '$db_name');" >> ./wp_config.php
 
 if [ -z ${db_user_name+x} ]; 
 then 
@@ -17,8 +20,7 @@ then
 else 
 	echo "db_user_name is set to $db_user_name"; 
 fi
-cat ./temp1 | sed "s/define('DB_USER', 'username_here');/define('DB_USER', '$db_user_name');/g" > ./temp2
-rm ./temp1
+echo "define('DB_USER', '$db_user_name');" >> ./wp_config.php
 
 if [ -z ${db_user_pw+x} ]; 
 then 
@@ -27,41 +29,24 @@ then
 else 
 	echo "db_user_pw is set"; 
 fi
-cat ./temp2 | sed "s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', '$db_user_pw');/g" > ./temp3
-rm temp2
+echo "define('DB_PASSWORD', '$db_user_pw');" >> ./wp_config.php
+
+echo "define('DB_HOST', 'localhost');" >> ./wp_config.php
+echo "define('DB_CHARSET', 'utf8');" >> ./wp_config.php
+echo "define('DB_COLLATE', '');" >> ./wp_config.php
 
 curl -s https://api.wordpress.org/secret-key/1.1/salt/ > ./keys
+cat keys >> ./wp_config.php
 
-cat ./temp3 | sed "s/define('AUTH_KEY',         'put your unique phrase here');//g" > ./temp4
-rm temp3
+echo "\$table_prefix  = 'wp_';" >> ./wp_config.php
+echo "define('WP_DEBUG', false);" >> ./wp_config.php
+echo "if ( !defined('ABSPATH') )" >> ./wp_config.php
+echo "   define('ABSPATH', dirname(__FILE__) . '/');" >> ./wp_config.php
+echo "require_once(ABSPATH . 'wp-settings.php');" >> ./wp_config.php
 
-cat ./temp4 | sed "s/define('SECURE_AUTH_KEY',         'put your unique phrase here');//g" > ./temp5
-rm temp4
-
-cat ./temp5 | sed "s/define('LOGGED_IN_KEY',         'put your unique phrase here');//g" > ./temp6
-rm temp5
-
-cat ./temp6 | sed "s/define('NONCE_KEY',         'put your unique phrase here');//g" > ./temp7
-rm temp6
-
-cat ./temp7 | sed "s/define('AUTH_SALT',         'put your unique phrase here');//g" > ./temp8
-rm temp7
-
-cat ./temp8 | sed "s/define('SECURE_AUTH_SALT',         'put your unique phrase here');//g" > ./temp9
-rm temp8
-
-cat ./temp9 | sed "s/define('LOGGED_IN_SALT',         'put your unique phrase here');//g" > ./temp10
-rm temp9
-
-cat ./temp10 | sed "s/define('NONCE_SALT',         'put your unique phrase here');//g" > ./temp11
-rm temp10
-
-cat keys >> ./temp11
-echo "define('FS_METHOD', 'direct');" >> ./temp11
-
-sudo chown root:root ./temp11
-sudo cp ./temp11 /var/www/html/wp-config.php
-sudo rm ./temp11
+sudo chown root:root ./wp_config.php
+sudo cp ./wp_config.php /var/www/html/wp-config.php
+sudo rm ./wp_config.php
 rm ./keys
 
 
